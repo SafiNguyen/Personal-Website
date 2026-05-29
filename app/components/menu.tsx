@@ -2,22 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import FluidText from "./fluidtext";
-
+import TransitionLink from "./transition/transitionLink";
 
 const LINKS = [
-  { label: "About", href: "#" },
-  { label: "Work", href: "#" },
-  {label: "News", href: "#" },
-  {label: "Gallery", href: "#" },
-  { label: "Exit", href: "#" },
+  { label: "About", href: "About" },
+  { label: "Work", href: "Projects" },
+  {label: "News", href: "News" },
+  {label: "Gallery", href: "Gallery" },
 
 ];
 
 export function ClipMenu() {
   const root = useRef<HTMLDivElement | null>(null);
   const overlay = useRef<HTMLDivElement | null>(null);
-  const items = useRef<HTMLAnchorElement[]>([]);
+  const items = useRef<HTMLButtonElement[]>([]);
   const tl = useRef<gsap.core.Timeline | null>(null);
 
   const [open, setOpen] = useState(false);
@@ -69,19 +67,57 @@ export function ClipMenu() {
     else t.reverse();
   }, [open]);
 
+
+useEffect(() => {
+  const handleKey = (e: KeyboardEvent) => {
+    if (["Shift", "Control", "Alt", "Meta"].includes(e.key)) return;
+    if (e.key === "Escape") setOpen(false);
+    else setOpen(true);
+  };
+
+  const handleClick = () => setOpen(true);
+
+  window.addEventListener("keydown", handleKey);
+  window.addEventListener("click", handleClick);
+
+  return () => {
+    window.removeEventListener("keydown", handleKey);
+    window.removeEventListener("click", handleClick);
+  };
+}, []);
+
   return (
     <div ref={root} className="relative">
-      
-      <div className="min-h-dvh grid place-items-center">
+
+       <div className="fixed inset-0 z-50 flex items-center justify-center">
+                 
+         idk
+         
+      </div>
+     
+      <div className="fixed inset-0 z-50 text-white">
+
+        <div className="mx-auto flex h-full max-w-5xl flex-col items-center justify-end pb-[10vh] px-6">
+        
         <button
-          className="rounded-full border border-white/20 px-4 py-2 text-sm hover:bg-white/10"
-          onClick={() => setOpen((v) => !v)}
+          className="rounded-full px-4 py-2 text-sm"
+          onClick={(e) => {
+            e.stopPropagation(); 
+            setOpen((v) => !v);
+          }}
           aria-expanded={open}
           aria-controls="menu-overlay"
         >
-         <FluidText text="WATER" className="max-w-4xl" />
+          <p>Press any key or click to start</p>
         </button>
-      </div>
+          
+        </div>
+        
+       
+      </div>  
+
+    
+
       {/* overlay */}
       <div
         id="menu-overlay"
@@ -97,26 +133,25 @@ export function ClipMenu() {
         <div className="mx-auto flex h-full max-w-5xl flex-col items-center justify-end pb-[10vh] px-6">
           <nav className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {LINKS.map((l, i) => (
-              <a
-                key={l.label}
-                href={l.href}
-                ref={(el) => {
-                  if (el) items.current[i] = el;
-                }}
-                className="group block"
-                onClick={() => setOpen(false)}
-              >
-                <span className="inline-block text-4xl text-white drop-shadow-[0_2.2px_2.2px_rgba(0,0,0,0.8)]
-
+            <TransitionLink key={l.label} href={l.href}>
+                <button
+                  ref={(el) => {
+                    if (el) items.current[i] = el; 
+                  }}
+                  className="group inline-block"
+                  onClick={() => setOpen(false)}
+                >
+                  <span className="inline-block text-1xl text-white drop-shadow-[0_2.2px_2.2px_rgba(0,0,0,0.8)]
                  font-handwriting tracking-tight transition-opacity 
                  transition-transform
-                 group-hover:opacity-80 sm:text-6xl
-                 hover:scale-125
+                  sm:text-3xl
+                 hover:scale-150
                  duration-500
                  ">
-                  {l.label}
-                </span>
-              </a>
+                    {l.label}
+                  </span>
+                </button>
+            </TransitionLink>
             ))}
           </nav>
         </div>
