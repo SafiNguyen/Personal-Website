@@ -1,0 +1,418 @@
+.page {
+  --about-bg: var(--background);
+  --about-panel: var(--surface);
+  --about-ink: var(--foreground);
+  --about-muted: var(--muted);
+  --about-line: var(--border);
+  --about-accent: var(--site-highlight);
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--about-bg);
+  color: var(--about-ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.shell {
+  width: min(100% - 48px, 1180px);
+  margin-inline: auto;
+}
+
+.header {
+  min-height: min(780px, 100svh);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 34px 0 36px;
+}
+
+.headerTop,
+.chapterMeta,
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kicker,
+.homeLink,
+.chapterEyebrow,
+.chapterNumber,
+.chapterNav,
+.note,
+.footer {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  margin: 0;
+  color: var(--about-muted);
+}
+
+.homeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--about-ink);
+  text-decoration: none;
+}
+
+.homeLink span {
+  color: var(--about-accent);
+  font-size: 18px;
+  transition: transform 180ms ease;
+}
+
+.homeLink:hover span {
+  transform: translate(-2px, -2px);
+}
+
+.heroTitle {
+  margin: 76px 0 12px -0.06em;
+  font-size: clamp(76px, 15vw, 190px);
+  font-weight: 600;
+  letter-spacing: -0.095em;
+  line-height: 0.78;
+}
+
+.heroTitle span {
+  color: var(--about-accent);
+  font-family: "Handwriting Black Draft", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.09em;
+}
+
+.intro {
+  max-width: 420px;
+  margin: 0 0 0 auto;
+  color: var(--about-muted);
+  font-size: clamp(15px, 1.6vw, 19px);
+  line-height: 1.55;
+}
+
+.chapterNav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--about-line);
+}
+
+.chapterNav a {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid var(--about-line);
+  color: var(--about-ink);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.chapterNav a + a {
+  padding-left: 20px;
+  border-left: 1px solid var(--about-line);
+}
+
+.chapterNav a:hover {
+  color: var(--about-accent);
+}
+
+.chapterNav a > span:first-child {
+  color: var(--about-muted);
+  font-size: 10px;
+}
+
+.navArrow {
+  margin-left: auto;
+  color: var(--about-accent);
+  font-size: 17px;
+  transition: transform 180ms ease;
+}
+
+.chapterNav a:hover .navArrow {
+  transform: translate(3px, 3px);
+}
+
+.chapters {
+  border-top: 1px solid var(--about-line);
+}
+
+.chapter {
+  scroll-margin-top: 24px;
+  padding: 24px 0 80px;
+  border-bottom: 1px solid var(--about-line);
+}
+
+.chapterMeta {
+  justify-content: flex-start;
+  gap: 18px;
+  color: var(--about-muted);
+}
+
+.chapterNumber {
+  color: var(--about-accent);
+  font-size: 11px;
+}
+
+.chapterEyebrow {
+  margin: 0;
+}
+
+.chapterBody {
+  display: grid;
+  grid-template-columns: 1fr 0.72fr;
+  align-items: center;
+  gap: clamp(36px, 8vw, 120px);
+  padding-top: 48px;
+}
+
+.chapter:nth-child(even) .chapterBody {
+  grid-template-columns: 0.72fr 1fr;
+}
+
+.chapter:nth-child(even) .artwork {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.chapter:nth-child(even) .chapterCopy {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.chapterCopy h2 {
+  margin: 0 0 26px -0.06em;
+  font-size: clamp(54px, 9.5vw, 120px);
+  font-weight: 500;
+  letter-spacing: -0.085em;
+  line-height: 0.9;
+}
+
+.description {
+  max-width: 600px;
+  margin: 0;
+  color: var(--about-muted);
+  font-size: clamp(18px, 2.25vw, 27px);
+  letter-spacing: -0.025em;
+  line-height: 1.43;
+}
+
+.description span {
+  color: var(--about-accent);
+}
+
+.note {
+  margin: 28px 0 0;
+  color: var(--about-muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.artwork {
+  position: relative;
+  display: grid;
+  min-height: clamp(260px, 37vw, 450px);
+  overflow: hidden;
+  place-items: center;
+  isolation: isolate;
+  background: var(--about-panel);
+}
+
+.artwork::before,
+.artwork::after {
+  position: absolute;
+  z-index: -1;
+  width: 70%;
+  aspect-ratio: 1;
+  border: 1px solid var(--about-line);
+  border-radius: 50%;
+  content: "";
+}
+
+.artwork::after {
+  width: 48%;
+  border-color: color-mix(in srgb, var(--about-ink) 12%, transparent);
+}
+
+.artworkOrb {
+  position: absolute;
+  width: 48%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--about-accent);
+  filter: blur(1px);
+  opacity: 0.9;
+  transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.artwork:hover .artworkOrb {
+  transform: scale(1.16) rotate(-12deg);
+}
+
+.artworkLetter {
+  z-index: 1;
+  color: var(--about-bg);
+  font-family: "Handwriting Black Draft", Georgia, serif;
+  font-size: clamp(100px, 18vw, 220px);
+  line-height: 0.7;
+}
+
+.artworkB .artworkOrb {
+  transform: translate(-8%, 7%);
+}
+
+.artworkW .artworkOrb {
+  width: 56%;
+  border-radius: 42% 58% 60% 40% / 42% 45% 55% 58%;
+  background: var(--site-contrast);
+  transform: rotate(22deg);
+}
+
+.artworkW:hover .artworkOrb {
+  transform: rotate(48deg) scale(1.13);
+}
+
+.artworkH .artworkOrb {
+  width: 54%;
+  background: color-mix(in srgb, var(--site-highlight) 45%, var(--site-light));
+  transform: translate(7%, -6%);
+}
+
+.artworkCaption {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  color: var(--about-muted);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.footer {
+  min-height: 74px;
+  gap: 16px;
+  color: var(--about-muted);
+  font-size: 10px;
+}
+
+.footer a {
+  color: var(--about-ink);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--about-accent);
+}
+
+.workCta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px 0 48px;
+  border-top: 1px solid var(--about-line);
+}
+
+.workCta p {
+  margin: 0;
+  color: var(--about-muted);
+  font-size: clamp(18px, 2.5vw, 28px);
+  letter-spacing: -0.04em;
+}
+
+.workButton {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 0 22px;
+  background: var(--about-accent);
+  color: var(--site-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.workButton:hover {
+  transform: translateY(-3px);
+  background: var(--site-contrast);
+  color: var(--site-light);
+}
+
+.workButton:focus-visible {
+  outline: 2px solid var(--about-ink);
+  outline-offset: 4px;
+}
+
+.workButton span {
+  font-size: 18px;
+}
+
+@media (max-width: 700px) {
+  .shell {
+    width: min(100% - 36px, 1180px);
+  }
+
+  .header {
+    min-height: 740px;
+    min-height: max(660px, 90svh);
+    padding-top: 24px;
+  }
+
+  .heroTitle {
+    margin-top: 72px;
+    font-size: clamp(68px, 17vw, 120px);
+  }
+
+  .intro {
+    margin-left: 0;
+  }
+
+  .chapterNav {
+    grid-template-columns: 1fr;
+  }
+
+  .chapterNav a + a {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .chapter {
+    padding-bottom: 54px;
+  }
+
+  .chapterBody,
+  .chapter:nth-child(even) .chapterBody {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-top: 38px;
+  }
+
+  .chapter:nth-child(even) .artwork,
+  .chapter:nth-child(even) .chapterCopy {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .artwork {
+    min-height: min(72vw, 360px);
+  }
+
+  .workCta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeLink span,
+  .chapterNav a,
+  .navArrow,
+  .artworkOrb {
+    transition: none;
+  }
+}

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import TransitionLink from "./transition/transitionLink";
+import { TransitionContext } from "./transition/transitionProvider";
 
 const LINKS = [
   { label: "About", href: "About" },
@@ -13,12 +14,13 @@ const LINKS = [
 ];
 
 export function ClipMenu() {
+  const { openHomeMenu, setHasStarted } = useContext(TransitionContext);
   const root = useRef<HTMLDivElement | null>(null);
   const overlay = useRef<HTMLDivElement | null>(null);
   const items = useRef<HTMLButtonElement[]>([]);
   const tl = useRef<gsap.core.Timeline | null>(null);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(openHomeMenu);
 
   useEffect(() => {
     if (!root.current) return;
@@ -37,7 +39,10 @@ export function ClipMenu() {
       });
 
       tl.current = gsap
-        .timeline({ paused: true, defaults: { duration: 0.9, ease: "power4.inOut" } })
+        .timeline({
+          paused: true,
+          defaults: { duration: 0.9, ease: "power4.inOut" },
+        })
         // overlay reveal
         .to(overlay.current, {
           clipPath: "circle(150% at 50% 50%)",
@@ -52,13 +57,14 @@ export function ClipMenu() {
             stagger: 0.06,
             duration: 0.55,
             ease: "power3.out",
+            onComplete: () => setHasStarted(true),
           },
           "-=0.35"
         );
     }, root);
 
     return () => ctx.revert();
-  }, []);
+  }, [setHasStarted]);
 
   useEffect(() => {
     const t = tl.current;
@@ -66,7 +72,6 @@ export function ClipMenu() {
     if (open) t.play();
     else t.reverse();
   }, [open]);
-
 
 useEffect(() => {
   const handleKey = (e: KeyboardEvent) => {
@@ -84,7 +89,7 @@ useEffect(() => {
     window.removeEventListener("keydown", handleKey);
     window.removeEventListener("click", handleClick);
   };
-}, []);
+}, [setHasStarted]);
 
   return (
     <div ref={root} className="relative">
@@ -95,7 +100,7 @@ useEffect(() => {
          
       </div>
      
-      <div className="fixed inset-0 z-50 text-white">
+      <div className="fixed inset-0 z-50 text-(--site-light)">
 
         <div className="mx-auto flex h-full max-w-5xl flex-col items-center justify-end pb-[10vh] px-6">
         
@@ -122,7 +127,7 @@ useEffect(() => {
       <div
         id="menu-overlay"
         ref={overlay}
-        className="fixed inset-0 z-50 text-white"
+        className="fixed inset-0 z-50 text-(--site-light)"
         style={{
           backgroundImage: "url('/placeholderMenu.png')",
           backgroundSize: "cover",
@@ -141,9 +146,8 @@ useEffect(() => {
                   className="group inline-block"
                   onClick={() => setOpen(false)}
                 >
-                  <span className="inline-block text-1xl text-white drop-shadow-[0_2.2px_2.2px_rgba(0,0,0,0.8)]
-                 font-handwriting tracking-tight transition-opacity 
-                 transition-transform
+                  <span className="inline-block text-1xl text-(--site-light) drop-shadow-[0_2.2px_2.2px_var(--site-dark)]
+                 font-handwriting tracking-tight transition
                   sm:text-3xl
                  hover:scale-150
                  duration-500

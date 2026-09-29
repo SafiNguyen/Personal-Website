@@ -9,8 +9,16 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --site-dark: #030208;
+  --site-light: #fcf1d0;
+  --site-highlight: #1b2cff;
+  --site-contrast: #ff1a1a;
+  --background: var(--site-light);
+  --foreground: var(--site-dark);
+  --surface: color-mix(in srgb, var(--site-light) 92%, var(--site-dark));
+  --muted: color-mix(in srgb, var(--foreground) 62%, var(--background));
+  --border: color-mix(in srgb, var(--foreground) 18%, transparent);
+  color-scheme: light;
 }
 
 @theme inline {
@@ -22,8 +30,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--site-dark);
+    --foreground: var(--site-light);
+    --surface: color-mix(in srgb, var(--site-dark) 90%, var(--site-light));
+    color-scheme: dark;
   }
 }
 

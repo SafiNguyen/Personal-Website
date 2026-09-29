@@ -4,12 +4,19 @@ import { useRouter, usePathname } from "next/navigation";
 import gsap from "gsap";
 import React, {
   createContext,
+  useCallback,
   useRef,
   useLayoutEffect,
   useEffect,
+  useState,
 } from "react";
 
-export const TransitionContext = createContext<{ navigate: (href: string) => void }>({ navigate: () => {} });
+export const TransitionContext = createContext<{
+  navigate: (href: string) => void;
+  openHomeMenu: boolean;
+  hasStarted: boolean;
+  setHasStarted: (started: boolean) => void;
+}>({ navigate: () => {}, openHomeMenu: false, hasStarted: false, setHasStarted: () => {} });
 
 const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -18,6 +25,9 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isAnimating = useRef(false);
   const firstLoad = useRef(true);
+  const returningHome = useRef(false);
+  const [openHomeMenu, setOpenHomeMenu] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   // Start off-screen
   useLayoutEffect(() => {
@@ -28,6 +38,10 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = (href: string) => {
     if (isAnimating.current || href === "#") return; // Ignore # links
     isAnimating.current = true;
+    if (href === "/") {
+      returningHome.current = true;
+      setOpenHomeMenu(true);
+    }
 
     gsap.to(containerRef.current, {
       y: "0%",
@@ -40,16 +54,20 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // Entry animation (slide out)
-  const enter = () => {
+  const enter = useCallback(() => {
     gsap.to(containerRef.current, {
       y: "100%",
       duration: 0.6,
       ease: "power2.inOut",
       onComplete: () => {
         isAnimating.current = false;
+        if (pathname === "/" && returningHome.current) {
+          returningHome.current = false;
+          setOpenHomeMenu(false);
+        }
       },
     });
-  };
+  }, [pathname]);
 
   // Run entry on every route change except first load
   useEffect(() => {
@@ -58,16 +76,16 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
     enter();
-  }, [pathname]);
+  }, [enter, pathname]);
 
   return (
-    <TransitionContext.Provider value={{ navigate }}>
+    <TransitionContext.Provider value={{ navigate, openHomeMenu, hasStarted, setHasStarted }}>
       {children}
 
       {/* Overlay - visible during transitions */}
       <div 
         ref={containerRef} 
-        className="fixed inset-0 z-[9999] bg-zinc-900 min-h-screen w-full" 
+        className="fixed inset-0 z-9999 min-h-screen w-full bg-[var(--background)]"
       />
     </TransitionContext.Provider>
   );
