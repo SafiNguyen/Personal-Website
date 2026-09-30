@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import TransitionLink from "../components/transition/transitionLink";
+import BackHomeLink from "../components/backHomeLink";
 import styles from "./page.module.css";
 
 const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
@@ -196,6 +196,18 @@ export default function TimetablePage() {
   }, [isExpanded]);
 
   const today = now ? (now.getDay() + 6) % 7 : -1;
+  const todayBlocks = today >= 0 ? WEEK[today].blocks : [];
+  const activeBlock = now
+    ? todayBlocks.find((block) => now.getHours() * 60 + now.getMinutes() >= block.startMinute && now.getHours() * 60 + now.getMinutes() < block.endMinute)
+    : undefined;
+  const nextBlock = now
+    ? todayBlocks.find((block) => block.startMinute > now.getHours() * 60 + now.getMinutes())
+    : undefined;
+  const currentTask = activeBlock
+    ? activeBlock.name
+    : nextBlock
+      ? `Next: ${nextBlock.name}`
+      : "No more scheduled tasks";
   const weeklyMinutes = WEEK.flatMap((day) => day.blocks).reduce<Record<Category, number>>(
     (totals, block) => {
       totals[block.category] += block.endMinute - block.startMinute;
@@ -219,15 +231,30 @@ export default function TimetablePage() {
         <header className={styles.header}>
           <div className={styles.headerTop}>
             <p className={styles.eyebrow}>Weekly rhythm</p>
-            <TransitionLink href="/" className={styles.homeLink}>
+            <BackHomeLink className={styles.homeLink}>
               <span aria-hidden="true">↖</span> Home
-            </TransitionLink>
+            </BackHomeLink>
           </div>
-          <h1 className={styles.title}>
-            My weekly
-            <br />
-            <span>TimeTable</span>
-          </h1>
+          <div className={styles.headerMain}>
+            <h1 className={styles.title}>
+              My weekly
+              <br />
+              <span>TimeTable</span>
+            </h1>
+            <aside className={styles.statusPanel} aria-label="Current time, date, and task">
+              <p className={styles.statusLabel}>Right now</p>
+              <p className={styles.statusTime}>
+                {now ? now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false }) : "--:--"}
+              </p>
+              <p className={styles.statusDate}>
+                {now ? now.toLocaleDateString([], { weekday: "short", day: "numeric", month: "short" }) : "Loading date"}
+              </p>
+              <div className={styles.statusTask}>
+                <span className={styles.statusDot} aria-hidden="true" />
+                <span>{currentTask}</span>
+              </div>
+            </aside>
+          </div>
           <div className={styles.headerFoot}>
             <span>Monday — Sunday</span>
             <span>05:00 — 23:00</span>
@@ -352,7 +379,7 @@ export default function TimetablePage() {
 
         <footer className={styles.footer}>
           <span>One week, at a glance.</span>
-          <TransitionLink href="/" className={styles.footerLink}>Back home ↑</TransitionLink>
+          <BackHomeLink className={styles.footerLink}>Back home ↑</BackHomeLink>
         </footer>
       </div>
     </main>

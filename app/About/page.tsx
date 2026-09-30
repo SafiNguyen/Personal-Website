@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import BackHomeLink from "../components/backHomeLink";
 import TransitionLink from "../components/transition/transitionLink";
 import styles from "./page.module.css";
 
@@ -101,9 +102,9 @@ export default function About() {
                 <header className={styles.header}>
                     <div className={styles.headerTop}>
                         <p className={styles.kicker}>A few things about me</p>
-                        <TransitionLink href="/" className={styles.homeLink}>
+                        <BackHomeLink className={styles.homeLink}>
                             <span aria-hidden="true">↖</span> Home
-                        </TransitionLink>
+                        </BackHomeLink>
                     </div>
 
                     <h1 className={styles.heroTitle}>

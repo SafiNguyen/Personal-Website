@@ -11,7 +11,7 @@
 :root {
   --site-dark: #030208;
   --site-light: #fcf1d0;
-  --site-highlight: #1b2cff;
+  --site-highlight: #0057ff;
   --site-contrast: #ff1a1a;
   --background: var(--site-light);
   --foreground: var(--site-dark);

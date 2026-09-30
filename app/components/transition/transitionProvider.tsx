@@ -26,6 +26,7 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
   const isAnimating = useRef(false);
   const firstLoad = useRef(true);
   const returningHome = useRef(false);
+  const navigationFallback = useRef<number | null>(null);
   const [openHomeMenu, setOpenHomeMenu] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
 
@@ -34,7 +35,7 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
     gsap.set(containerRef.current, { y: "100%" });
   }, []);
 
-  // Exit animation → navigate
+  // Exit animation -> navigate
   const navigate = (href: string) => {
     if (isAnimating.current || href === "#") return; // Ignore # links
     isAnimating.current = true;
@@ -43,14 +44,21 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
       setOpenHomeMenu(true);
     }
 
+    const pushRoute = () => {
+      if (navigationFallback.current !== null) {
+        window.clearTimeout(navigationFallback.current);
+        navigationFallback.current = null;
+      }
+      router.push(href);
+    };
+
     gsap.to(containerRef.current, {
       y: "0%",
       duration: 0.6,
       ease: "power2.inOut",
-      onComplete: () => {
-        router.push(href);
-      },
+      onComplete: pushRoute,
     });
+    navigationFallback.current = window.setTimeout(pushRoute, 900);
   };
 
   // Entry animation (slide out)
@@ -71,6 +79,11 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Run entry on every route change except first load
   useEffect(() => {
+    isAnimating.current = false;
+    if (navigationFallback.current !== null) {
+      window.clearTimeout(navigationFallback.current);
+      navigationFallback.current = null;
+    }
     if (firstLoad.current) {
       firstLoad.current = false;
       return;
@@ -85,7 +98,7 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
       {/* Overlay - visible during transitions */}
       <div 
         ref={containerRef} 
-        className="fixed inset-0 z-9999 min-h-screen w-full bg-[var(--background)]"
+        className="fixed inset-0 z-9999 min-h-screen w-full bg-background"
       />
     </TransitionContext.Provider>
   );

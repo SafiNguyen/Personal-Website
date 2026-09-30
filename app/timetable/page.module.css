@@ -120,6 +120,13 @@
   transform: translate(-2px, -2px);
 }
 
+.headerMain {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 0.42fr);
+  align-items: end;
+  gap: 24px;
+}
+
 .title {
   margin: 14px 0 8px -0.06em;
   font-size: clamp(36px, 4.5vw, 52px);
@@ -138,6 +145,56 @@
 
 .headerFoot {
   color: var(--mute);
+}
+
+.statusPanel {
+  justify-self: end;
+  width: min(100%, 280px);
+  margin-bottom: 12px;
+  padding: 12px 0 12px 18px;
+  border-left: 1px solid var(--line);
+}
+
+.statusLabel {
+  margin: 0 0 4px;
+  color: var(--mute);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.statusTime {
+  margin: 0;
+  color: var(--site-highlight);
+  font-size: clamp(30px, 4vw, 46px);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.07em;
+  line-height: 1;
+}
+
+.statusDate {
+  margin: 6px 0 14px;
+  color: var(--mute);
+  font-size: 11px;
+}
+
+.statusTask {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--site-contrast);
 }
 
 .legend {
@@ -370,6 +427,11 @@
 }
 
 @media (max-width: 900px) {
+  .headerMain {
+    grid-template-columns: minmax(0, 1fr) minmax(170px, 0.45fr);
+    gap: 16px;
+  }
+
   .legend {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -396,6 +458,38 @@
   .title {
     margin-top: 12px;
     font-size: clamp(32px, 8vw, 40px);
+  }
+
+  .headerMain {
+    grid-template-columns: minmax(0, 1fr) minmax(120px, 0.6fr);
+    align-items: center;
+    gap: 10px;
+  }
+
+  .statusPanel {
+    width: 100%;
+    margin-bottom: 0;
+    padding: 4px 0 4px 10px;
+  }
+
+  .statusTime {
+    font-size: clamp(22px, 6vw, 28px);
+  }
+
+  .statusDate {
+    margin: 5px 0 8px;
+    font-size: 9px;
+    white-space: nowrap;
+  }
+
+  .statusTask {
+    font-size: 10px;
+  }
+
+  .statusTask span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .legend {

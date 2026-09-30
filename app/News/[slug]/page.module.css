@@ -1,0 +1,246 @@
+.page {
+  min-height: 100dvh;
+  padding: 26px 24px 52px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.article {
+  width: min(100%, 930px);
+  margin-inline: auto;
+}
+
+.topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.backLink,
+.homeLink,
+.meta,
+.shareLabel,
+.moreLink {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.backLink,
+.homeLink,
+.moreLink {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.backLink span {
+  color: var(--site-highlight);
+  font-size: 16px;
+  vertical-align: -1px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 72px;
+  color: var(--muted);
+}
+
+.meta span:first-child {
+  color: var(--site-highlight);
+}
+
+.header h1 {
+  max-width: 900px;
+  margin: 18px 0 10px -0.05em;
+  font-size: clamp(44px, 8vw, 92px);
+  font-weight: 500;
+  letter-spacing: -0.08em;
+  line-height: 0.96;
+}
+
+.excerpt {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(18px, 2.5vw, 25px);
+  line-height: 1.45;
+}
+
+.cover {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 2.1 / 1;
+  margin-top: 34px;
+  background: var(--surface);
+}
+
+.cover img {
+  object-fit: cover;
+}
+
+.body {
+  width: min(100%, 690px);
+  margin: 54px auto 60px;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.body h2 {
+  margin: 2em 0 0.65em;
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 1.12;
+}
+
+.body p {
+  margin: 0 0 1.25em;
+}
+
+.body ul,
+.body ol {
+  margin: 0 0 1.4em;
+  padding-left: 1.3em;
+}
+
+.body li {
+  padding-left: 0.3em;
+  margin: 0.35em 0;
+}
+
+.body a {
+  color: var(--site-highlight);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.body blockquote {
+  margin: 2em 0;
+  padding: 0 0 0 20px;
+  border-left: 2px solid var(--site-highlight);
+  color: var(--muted);
+  font-size: 21px;
+}
+
+.postFooter {
+  width: min(100%, 930px);
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.endMark {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.endMark span {
+  color: var(--site-highlight);
+  font-size: 18px;
+}
+
+.share {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.shareLabel {
+  color: var(--muted);
+}
+
+.shareActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.shareActions button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.shareActions button:hover {
+  border-color: var(--site-highlight);
+  color: var(--site-highlight);
+}
+
+.shareActions button span {
+  color: var(--site-highlight);
+  font-size: 15px;
+}
+
+.shareError {
+  color: var(--site-contrast);
+  font-size: 11px;
+}
+
+.moreLink {
+  display: inline-block;
+  margin-top: 23px;
+  color: var(--site-highlight);
+}
+
+.backLink:focus-visible,
+.homeLink:focus-visible,
+.moreLink:focus-visible,
+.shareActions button:focus-visible {
+  outline: 2px solid var(--site-highlight);
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 18px 18px 38px;
+  }
+
+  .meta {
+    gap: 12px;
+    margin-top: 48px;
+    font-size: 9px;
+  }
+
+  .cover {
+    aspect-ratio: 1.45 / 1;
+    margin-top: 26px;
+  }
+
+  .body {
+    margin: 38px auto 44px;
+    font-size: 16px;
+  }
+
+  .share {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shareActions button {
+    transition: none;
+  }
+}

@@ -1,14 +1,13 @@
-import TransitionLink from "./transition/transitionLink";
+import BackHomeLink from "./backHomeLink";
 
 export default function BackHomePlaceholder() {
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-[var(--background)] px-6 text-[var(--foreground)]">
-      <TransitionLink
-        href="/"
-        className="rounded-full border border-[var(--border)] px-6 py-3 text-sm transition hover:border-[var(--site-highlight)] hover:text-[var(--site-highlight)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--site-highlight)]"
+    <main className="flex min-h-dvh items-center justify-center bg-background px-6 text-foreground">
+      <BackHomeLink
+        className="rounded-full border border-(--border) px-6 py-3 text-sm transition hover:border-(--site-highlight) hover:text-(--site-highlight) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--site-highlight)"
       >
         Back home
-      </TransitionLink>
+      </BackHomeLink>
     </main>
   );
 }

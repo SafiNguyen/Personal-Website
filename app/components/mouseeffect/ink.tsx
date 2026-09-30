@@ -108,7 +108,7 @@ function MouseTrail() {
   return (
     <group>
       <line geometry={lineGeometry}>
-        <lineBasicMaterial color="#1B2CFF" transparent opacity={0.35} />
+        <lineBasicMaterial color="#0057FF" transparent opacity={0.35} />
       </line>
       <points geometry={dotsGeometry}>
         <pointsMaterial
